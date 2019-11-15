@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "isomorphic-fetch": "^2.2.1",
+    "babel-register": "^6.26.0",
     "js-md5": "^0.7.3",
     "mongoose": "^5.7.7",
     "multiparty": "^4.2.1"
@@ -26,7 +27,6 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
