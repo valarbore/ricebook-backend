@@ -1,6 +1,4 @@
 var cloudinary = require('cloudinary');
-cloudinary.config({
-  cloud_name: 'hlfkcqwzz',
-  api_key: '596759779486496',
-  api_secret: 'r5U05RjFFYCrWsRvtD14PUpO9UI',
-});
+if (!process.env.CLOUDINARY_URL) {
+  process.env.CLOUDINARY_URL="cloudinary://596759779486496:r5U05RjFFYCrWsRvtD14PUpO9UI@hlfkcqwzz"
+}
