@@ -1,17 +1,17 @@
 var multiparty = require('multiparty');
 var cloudinary = require('cloudinary');
-import Profile from '../models/profileModel';
-import User from '../models/userModel';
-import {
+const User = require('../models/userModel').User;
+const Profile = require('../models/profileModel.js').Profile;
+const Article = require('../models/articleModel').Article;
+const {
   createRequestErrorResponse,
   dbErrorResponse,
   createSuccessResponse,
   parameterErrorResponse,
   cloudinaryErrorResponse,
   userNotFoundErrorResponse,
-} from '../utils/resFormat';
-import Article from '../models/articleModel';
-import encodePassword from '../utils/password';
+} = require('../utils/resFormat');
+const { encodePassword } = require('../utils/password');
 
 const userNotFound = 'Can not find this user';
 /**

@@ -1,12 +1,12 @@
-import Profile from '../models/profileModel';
-import {
+const User = require('../models/userModel').User;
+const Profile = require('../models/profileModel.js').Profile;
+const {
   dbErrorResponse,
   createSuccessResponse,
   parameterErrorResponse,
   createRequestErrorResponse,
   userNotFoundErrorResponse,
-} from '../utils/resFormat';
-import User from '../models/userModel';
+} = require('../utils/resFormat');
 
 const assembleFollowing = (res, following) => {
   Profile.find({ username: { $in: following } }, (err, profiles) => {

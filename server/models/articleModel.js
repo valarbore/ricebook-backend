@@ -16,6 +16,5 @@ var articleSchema = new mongoose.Schema({
   comments: [commentSchema],
 });
 
-let Article = mongoose.model('article', articleSchema);
-export const Comment = mongoose.model('comment', articleSchema);
-export default Article;
+exports.Article = mongoose.model('article', articleSchema);
+exports.Comment = mongoose.model('comment', articleSchema);

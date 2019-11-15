@@ -10,6 +10,4 @@ let ProfileSchema = new mongoose.Schema({
   following: [String],
 });
 
-let Profile = mongoose.model('Profile', ProfileSchema);
-
-export default Profile;
+exports.Profile = mongoose.model('Profile', ProfileSchema);

@@ -7,6 +7,4 @@ let UserSchema = new mongoose.Schema({
   pid: String,
 });
 
-let User = mongoose.model('User', UserSchema);
-
-export default User;
+exports.User = mongoose.model('User', UserSchema);

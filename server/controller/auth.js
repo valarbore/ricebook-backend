@@ -1,15 +1,15 @@
-import User from '../models/userModel';
-import Profile from '../models/profileModel';
-import {
+const User = require('../models/userModel').User;
+const Profile = require('../models/profileModel.js').Profile;
+const {
   createRequestErrorResponse,
   createSuccessResponse,
   dbErrorResponse,
   parameterErrorResponse,
   noAuthorityResponse,
   userNotFoundErrorResponse,
-} from '../utils/resFormat';
-import encodePassword from '../utils/password';
-import md5 from 'js-md5';
+} = require('../utils/resFormat');
+const { encodePassword } = require('../utils/password');
+const md5 = require('js-md5');
 
 const userExistHint = 'You can not use a username already exists !';
 const defaultStatus = 'new user!';

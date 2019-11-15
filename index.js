@@ -1,4 +1,3 @@
-require('babel-register');
 const express = require('express');
 const apiConfigure = require('./server/apiConfigure');
 const middlewareConfigure = require('./server/middlewareConfigure');

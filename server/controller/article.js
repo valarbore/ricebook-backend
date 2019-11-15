@@ -1,14 +1,14 @@
-import Profile from '../models/profileModel';
-import Article from '../models/articleModel';
+const Profile = require('../models/profileModel.js').Profile;
+const Article = require('../models/articleModel').Article;
 const ObjectId = require('mongoose').Types.ObjectId;
-import {
+const {
   createDBErrorResponse,
   createSuccessResponse,
   cloudinaryErrorResponse,
   dbErrorResponse,
   noAuthorityResponse,
   createRequestErrorResponse,
-} from '../utils/resFormat';
+} = require('../utils/resFormat');
 var multiparty = require('multiparty');
 var cloudinary = require('cloudinary');
 
