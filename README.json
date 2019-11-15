@@ -1,4 +1,5 @@
 {
   "netid": "bz31",
-  "backend": "https://valarborebackendtest.herokuapp.com/"
+  "frontend": "http://ricebook.bz31.surge.sh",
+  "backend": "https://ricebookserverbz31.herokuapp.com"
 }
