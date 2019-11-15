@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Login" errors="0" tests="2" failures="0" time="0.182" timestamp="2019-11-14T19:37:10">
+  <testcase classname="Login" name="should log in with correct username and password" time="0.104"></testcase>
+  <testcase classname="Login" name="should log in with correct username and password" time="0.075"></testcase>
+</testsuite>
+</testsuites>
