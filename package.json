@@ -18,11 +18,10 @@
     "es6-promise": "^4.2.8",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
-    "form-data": "^3.0.0",
+    "isomorphic-fetch": "^2.2.1",
     "js-md5": "^0.7.3",
     "mongoose": "^5.7.7",
-    "multiparty": "^4.2.1",
-    "redis": "^2.8.0"
+    "multiparty": "^4.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -32,7 +31,6 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "isomorphic-fetch": "^2.2.1",
     "prettier": "^1.18.2"
   }
 }
