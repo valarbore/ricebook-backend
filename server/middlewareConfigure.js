@@ -9,6 +9,6 @@ module.exports = app => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookies());
-  app.use(cors({ credentials: true, origin: 'ricebook.bz31.surge.sh' }));
+  app.use(cors({ credentials: true, origin: 'http://ricebook.bz31.surge.sh' }));
   app.use(auth.isLoggedIn);
 };
