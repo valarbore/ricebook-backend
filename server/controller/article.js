@@ -58,7 +58,7 @@ const postArticle = (req, res) => {
         });
       } catch (err) {
         // upload to cloudinary fail
-        return cloudinaryErrorResponse(res);
+        return cloudinaryErrorResponse(res, err);
       }
     }
   });
@@ -83,6 +83,7 @@ const getArticle = (req, res) => {
       const authors = [user.username].concat(following);
       Article.find({ author: { $in: authors } })
         .sort({ date: -1 })
+        .limit(10)
         .exec((err, articles) => {
           if (err) return dbErrorResponse(res, err);
           return res.send(createSuccessResponse(articles));
@@ -100,6 +101,7 @@ const getArticle = (req, res) => {
     } catch (err) {
       // get by author name
       Article.find({ author: id })
+        .limit(10)
         .sort({ date: -1 })
         .exec((err, articles) => {
           if (err) return dbErrorResponse(res, err);
@@ -109,59 +111,97 @@ const getArticle = (req, res) => {
   }
 };
 
+const updateArticle = (id, fields, res, img) => {
+  Article.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        head: fields.head ? fields.head[0] : '',
+        text: fields.text ? fields.text[0] : '',
+        img: img,
+      },
+    },
+    { new: true, useFindAndModify: false },
+    (err, newArticle) => {
+      if (err) return dbErrorResponse(res, err);
+      return res.send(createSuccessResponse(newArticle));
+    },
+  );
+};
+/**
+ * update article
+ * no commentId: update article content
+ * has commentId: commentId = -1 add new comment
+ * commentId!=-1 update comment with commentId
+ * @param {*} req
+ * @param {*} res
+ */
 const putArticle = (req, res) => {
   const user = req.user;
   const id = req.params.id;
-  const commentId = req.body.commentId;
-  Article.findById(id, (err, article) => {
-    if (err) return dbErrorResponse(res, err);
-    if (!article)
-      return res
-        .status(400)
-        .send(createRequestErrorResponse('Can not find this article'));
-    if (commentId === undefined) {
-      // update article by id
-      // make sure current user has authority to update it
-      if (article.author !== user.username) {
-        // no authority
-        return noAuthorityResponse(res);
-      } else {
-        // has authority
-        Article.findByIdAndUpdate(
-          id,
-          { $set: { head: req.body.head, text: req.body.text } },
-          { new: true },
-          (err, newArticle) => {
-            if (err) return dbErrorResponse(res, err);
-            return res.send(createSuccessResponse(newArticle));
-          },
-        );
-      }
-    } else {
-      const comment = {
-        author: user.username,
-        text: req.body.text,
-      };
-      if (commentId === -1) {
-        // create a new comment to the article
-        article.comments.push(comment);
-      } else {
-        // update a comment by commentId
-        var currentComment = article.comments.id(commentId);
-        // make sure current user has authority to change the comment
-        if (currentComment.author === user.username) {
+
+  var form = new multiparty.Form();
+  form.parse(req, function(err, fields, files) {
+    const commentId = fields.commentId ? fields.commentId[0] : undefined;
+    Article.findById(id, (err, article) => {
+      if (err) return dbErrorResponse(res, err);
+      if (!article)
+        return res
+          .status(400)
+          .send(createRequestErrorResponse('Can not find this article'));
+      if (commentId === undefined) {
+        // update article by id
+        // make sure current user has authority to update it
+        if (article.author !== user.username) {
+          // no authority
+          return noAuthorityResponse(res);
+        } else {
           // has authority
-          article.comments.id(commentId).remove();
+          console.log(fields);
+          console.log(files);
+          if (files.img === undefined) {
+            updateArticle(id, fields, res, null);
+          } else {
+            // upload file to cloudinary
+            try {
+              cloudinary.uploader.upload(files.img[0].path, function(result) {
+                updateArticle(id, fields, res, result.url);
+              });
+            } catch (err) {
+              // upload to cloudinary fail
+              return cloudinaryErrorResponse(res, err);
+            }
+          }
+        }
+      } else {
+        const comment = {
+          author: user.username,
+          text: fields.text ? fields.text[0] : '',
+        };
+        if (commentId === '-1') {
+          // create a new comment to the article
           article.comments.push(comment);
-        } else noAuthorityResponse(res);
+        } else {
+          // update a comment by commentId
+          var currentComment = article.comments.id(commentId);
+          // make sure current user has authority to change the comment
+          if (currentComment && currentComment.author === user.username) {
+            // has authority
+            article.comments.id(commentId).text = comment.text;
+          } else noAuthorityResponse(res);
+        }
+        // return the new article
+        article.save(article, (err, newArticle) => {
+          if (err) dbErrorResponse(res, err);
+          return res.send(createSuccessResponse(newArticle));
+        });
       }
-      // return the new article
-      article.save(article, (err, newArticle) => {
-        if (err) dbErrorResponse(res, err);
-        return res.send(createSuccessResponse(newArticle));
-      });
-    }
+    });
   });
 };
 
-module.exports = { postArticle, getArticle, putArticle };
+module.exports = app => {
+  app.post('/article', postArticle);
+  app.get('/article/:id?', getArticle);
+  app.put('/article/:id', putArticle);
+};

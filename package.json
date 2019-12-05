@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node spec --junitreport",
-    "start": "node index.js"
+    "start": "cross-env NODE_ENV=development node index.js",
+    "start:prod": "cross-env NODE_ENV=production node index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,11 +22,15 @@
     "isomorphic-fetch": "^2.2.1",
     "js-md5": "^0.7.3",
     "mongoose": "^5.7.7",
-    "multiparty": "^4.2.1"
+    "multiparty": "^4.2.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "babel-preset-env": "^1.7.0",
+    "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",

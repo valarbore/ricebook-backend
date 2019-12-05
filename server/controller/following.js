@@ -91,4 +91,8 @@ const deleteFollowing = (req, res) => {
   );
 };
 
-module.exports = { getFollowing, putFollowing, deleteFollowing };
+module.exports = app => {
+  app.get('/following/:user?', getFollowing);
+  app.put('/following/:user', putFollowing);
+  app.delete('/following/:user', deleteFollowing);
+};

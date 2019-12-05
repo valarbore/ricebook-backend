@@ -201,15 +201,15 @@ const putPassword = (req, res) => {
   );
 };
 
-module.exports = {
-  putAvatar,
-  getHeadline,
-  putHeadline,
-  getEmail,
-  putEmail,
-  getZipcode,
-  putZipcode,
-  getDob,
-  getAvatar,
-  putPassword,
+module.exports = app => {
+  app.get('/headline/:user', getHeadline);
+  app.put('/headline', putHeadline);
+  app.get('/email/:user?', getEmail);
+  app.put('/email', putEmail);
+  app.get('/zipcode/:user?', getZipcode);
+  app.put('/zipcode', putZipcode);
+  app.get('/dob/:user?', getDob);
+  app.get('/avatar/:user?', getAvatar);
+  app.put('/avatar', putAvatar);
+  app.put('/password', putPassword);
 };
